@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PodcastGenero extends Model
 {
+    use HasFactory;
+
     protected $table = 'podcast_genero';
     protected $fillable = [
         'podcast_id', 
