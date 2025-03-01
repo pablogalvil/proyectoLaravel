@@ -19,7 +19,6 @@ class podcastFactory extends Factory
         return [
             'duracion' => $this->faker->numberBetween(30, 180),
             'titulo' => $this->faker->text(),
-            'audio' => $this->faker->text(),
             'imagen' => $this->faker->imageUrl(),
             'descripcion' => $this->faker->text(),
             'fechaPublicacion' => $this->faker->date()
