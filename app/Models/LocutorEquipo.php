@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class LocutorEquipo extends Model
 {
-
     use HasFactory;
 
     protected $table = 'locutor_equipo';
@@ -28,5 +27,6 @@ class LocutorEquipo extends Model
     {
         return $this->belongsTo(Equipo::class);
     }
+
 
 }
