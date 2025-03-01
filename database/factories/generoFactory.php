@@ -17,9 +17,9 @@ class generoFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre' => $this->faker->name,
-            'adulto' => $this->faker->boolean,
-            'descripcion' => $this->faker->text
+            'nombre' => $this->faker->name(),
+            'adulto' => $this->faker->boolean(),
+            'descripcion' => $this->faker->text()
         ];
     }
 }
