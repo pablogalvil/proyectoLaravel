@@ -16,8 +16,8 @@ class PodcastController extends Controller
     // Mostrar detalles de un Podcast
     public function show($id)
     {
-        $Podcast = Podcast::with('mascotas')->findOrFail($id);
-        return view('podcast.show', compact('Podcast'));
+        $podcast = Podcast::findOrFail($id);
+        return response()->json($podcast);
     }
 
 
@@ -33,19 +33,20 @@ class PodcastController extends Controller
 
     public function edit($id)
     {
-        $Podcast = Podcast::findOrFail($id);
-        return view('podcast.edit', compact('Podcast'));
+        $podcast = Podcast::findOrFail($id);
+        return view('podcast.edit', compact('podcast'));
     }
 
     public function update(Request $request, $id)
     {
         $Podcast = Podcast::findOrFail($id);
-
+        //campos requeridos en el formulario
         $request->validate([
-            'nombre' => 'required|string|max:255|min:8',
-            'email' => 'required|email|max:255',
-            'telefono' => 'nullable|string|max:255',
-            'direccion' => 'required|string|max:255|min:8'
+            'duracion' => 'required|integer|max:255|min:8',
+            'nombre' => 'required|string|max:255',
+            'imagen' => 'nullable|string|max:255',
+            'descripcion' => 'required|string|max:255|min:8',
+            'fechaPublicacion' => 'required|date'
         ]);
 
         //Guardamos los datos el Podcast para obtener el nuevo id, sin la imagen
@@ -59,7 +60,7 @@ class PodcastController extends Controller
             }
 
             //Definimos la ruta especifica para este Podcast
-            $carpetaPodcast = 'imagenes/podcast/' . $Podcast->id;
+            $carpetaPodcast = '/storage/public/app/imgenes/podcast/' . $Podcast->id;
 
             //Guardamos la imagen en el hd y obtenemos la ruta completa
             $imagenPath = $request->file('imagen')->store($carpetaPodcast, 'public');
@@ -84,11 +85,13 @@ class PodcastController extends Controller
 
     public function store(Request $request)
     {
+        //campos requeridos en el formulario
         $request->validate([
-            'nombre' => 'required|string|max:255|min:8',
-            'email' => 'required|email|max:255',
-            'telefono' => 'nullable|string|max:255',
-            'direccion' => 'required|string|max:255|min:8'
+            'duracion' => 'required|integer|max:255|min:8',
+            'nombre' => 'required|string|max:255',
+            'imagen' => 'nullable|string|max:255',
+            'descripcion' => 'required|string|max:255|min:8',
+            'fechaPublicacion' => 'required|date'
         ]);
 
         //Creamos el Podcast para obtener el nuevo id, sin la imagen
