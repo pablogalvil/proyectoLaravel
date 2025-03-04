@@ -20,7 +20,7 @@ class PodcastController extends Controller
         return response()->json($podcast);
     }
 
-
+    //funcion para eliminar
     public function destroy($id)
     {
         //Con find sacamos el Podcast con el id que le introducimos de base de datos
@@ -30,13 +30,13 @@ class PodcastController extends Controller
         //Redireccionamos a la lista de podcast
         return redirect()->route('podcast.index')->with('success', 'Podcast eliminado correctamente.');
     }
-
+    //funcion para editar
     public function edit($id)
     {
         $podcast = Podcast::findOrFail($id);
         return view('podcast.edit', compact('podcast'));
     }
-
+    //funcion para actualizar
     public function update(Request $request, $id)
     {
         $Podcast = Podcast::findOrFail($id);
@@ -76,7 +76,7 @@ class PodcastController extends Controller
 
         return redirect()->route('podcast.index')->with('success', 'Podcast actualizado correctamente.');
     }
-
+    //funcion para crear nuevo podcast
     public function create()
     {
         return view('podcast.create');
@@ -110,7 +110,7 @@ class PodcastController extends Controller
             $Podcast->update(['imagen' => $imagePath]); //imagen = $imagePath;
 
         }
-
+        //reedirigmos al index
         return redirect()->route('podcast.index')->with('success', 'Podcast actualizado correctamente.');
     }
 

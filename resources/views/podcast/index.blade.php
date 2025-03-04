@@ -6,6 +6,7 @@
         <a href="{{ route('podcast.create') }}" class="btn btn-primary mb-3">Nuevo podcast</a>
         <table class="table table-bordered">
             <thead>
+                <!--creamos la tabla -->
                 <tr>
                     <th>ID</th>
                     <th>Duración</th>
@@ -16,7 +17,9 @@
                 </tr>
             </thead>
             <tbody>
+                <!--creamos la tabla -->
                 @foreach ($podcast as $producto)
+                    <!--imprimimos cada uno de los podcasts -->
                     <tr>
                         <td>{{ $producto->id }}</td>
                         <td>{{ $producto->duracion }}</td>
@@ -67,12 +70,13 @@
                     fetch(`/podcast/show/${podcastId}`)
                         .then(response => response.json())
                         .then(data => {
+                            //mostramos los detalles del podcast
                             let detallesHtml = `<p><strong>ID:</strong> ${data.id}</p>
-                                                    <p><strong>Imagen:</strong> <img src="${rutaImg}${data.imagen}" width="200" height="200" alt="Imagen del Podcast"></p>
-                                                    <p><strong>Título:</strong> ${data.nombre}</p>
-                                                    <p><strong>Duración:</strong> ${data.duracion}</p>
-                                                    <p><strong>Descripción:</strong> ${data.descripcion}</p>
-                                                    <p><strong>Fecha de Publicación:</strong> ${data.fechaPublicacion}</p>`;
+                                                                            <p><strong>Imagen:</strong> <img src="${rutaImg}${data.imagen}" width="200" height="200" alt="Imagen del Podcast"></p>
+                                                                            <p><strong>Título:</strong> ${data.nombre}</p>
+                                                                            <p><strong>Duración:</strong> ${data.duracion}</p>
+                                                                            <p><strong>Descripción:</strong> ${data.descripcion}</p>
+                                                                            <p><strong>Fecha de Publicación:</strong> ${data.fechaPublicacion}</p>`;
                             //capturamos el elemento con el id detallesPodcast
                             document.getElementById("detallesPodcast").innerHTML = detallesHtml;
                             // mostramos el modal con los detalles
