@@ -39,6 +39,8 @@
                     </a>
                 @endif
 
+                <a href="{{ route('register') }}" class="ms-4">{{ __('Register') }}</a>
+
                 <x-button class="ms-4">
                     {{ __('Log in') }}
                 </x-button>
