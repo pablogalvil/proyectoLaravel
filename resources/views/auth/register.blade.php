@@ -1,12 +1,9 @@
 <x-guest-layout>
     <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
 
         <x-validation-errors class="mb-4" />
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
             @csrf
 
             <div>
@@ -35,6 +32,11 @@
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
                 </select>
+            </div>
+
+            <div class="mt-4">
+                <x-label for="image" value="{{ __('Image') }}" />
+                <x-input id="image" class="block mt-1 w-full" type="file" name="image"/>
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())

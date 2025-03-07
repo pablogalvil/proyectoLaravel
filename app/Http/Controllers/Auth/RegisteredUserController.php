@@ -40,7 +40,18 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'image' => null,
         ]);
+
+        if($request->hasFile('image')) {
+            $carpetaUsuario = 'image/user' . $user->id;
+
+            //Guardamos el archivo en el disco duro y obtenemos la ruta completa
+            $imagePath = $request->file('image')->store($carpetaUsuario, 'public');
+
+            //Guardamos la ruta en la BD
+            $user->update(['image' => $imagePath]);
+        }
 
         event(new Registered($user));
 
