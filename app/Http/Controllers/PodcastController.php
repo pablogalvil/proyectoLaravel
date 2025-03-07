@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lista;
 use Illuminate\Http\Request;
 use App\Models\Podcast;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +12,8 @@ class PodcastController extends Controller
     public function indice()
     {
         $podcast = Podcast::all();
-        return view('podcast.indice', compact('podcast'));
+        $listas = Lista::all();
+        return view('podcast.indice', compact('podcast', 'listas'));
     }
 
     // funcion para los detalles del podcast
