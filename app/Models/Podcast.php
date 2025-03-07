@@ -12,10 +12,10 @@ class Podcast extends Model
     protected $table = 'podcast';
 
     protected $fillable = [
-        'duracion', 
-        'nombre', 
-        'imagen', 
-        'descripcion', 
+        'duracion',
+        'nombre',
+        'imagen',
+        'descripcion',
         'fechaPublicacion'
     ];
 

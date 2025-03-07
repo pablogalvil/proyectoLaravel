@@ -7,16 +7,16 @@ use App\Http\Controllers\PodcastController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/podcast', [PodcastController::class, 'index'])->name('podcast.index');
+Route::get('/podcast', [PodcastController::class, 'indice'])->name('podcast.indice');
 //Ruta para el borrado del podcast actual
-Route::delete('/podcast/{id}', [PodcastController::class, 'destroy'])->name('podcast.destroy');
+Route::delete('/podcast/{id}', [PodcastController::class, 'eliminar'])->name('podcast.eliminar');
 //Ruta para cargar la vista de edicion del podcast seleccionado
-Route::get('/podcast/{id}/edit', [PodcastController::class, 'edit'])->name('podcast.edit');
+Route::get('/podcast/{id}/editar', [PodcastController::class, 'editar'])->name('podcast.editar');
 //Ruta para actualizar el podcast seleccionado
-Route::put('/podcast/{id}', [PodcastController::class, 'update'])->name('podcast.update');
+Route::put('/podcast/{id}', [PodcastController::class, 'actualizar'])->name('podcast.actualizar');
 //Ruta para cargar la vista de inserción
-Route::get('/podcast/create', [PodcastController::class, 'create'])->name('podcast.create');
+Route::get('/podcast/crear', [PodcastController::class, 'crear'])->name('podcast.crear');
 //Ruta para insertar un nuevo podcast
-Route::post('/podcast/store', [PodcastController::class, 'store'])->name('podcast.store');
+Route::post('/podcast/insertar', [PodcastController::class, 'insertar'])->name('podcast.insertar');
 //Ruta para mostrar detalles del podcast
-Route::get('/podcast/show/{id}', [PodcastController::class, 'show'])->name('podcast.show');
+Route::get('/podcast/mostrar/{id}', [PodcastController::class, 'mostrar'])->name('podcast.mostrar');

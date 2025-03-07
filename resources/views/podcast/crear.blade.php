@@ -3,8 +3,9 @@
 @section('content')
     <div class="container">
         <h1>Crear podcast</h1>
-        <form action="{{ route('podcast.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('podcast.insertar') }}" method="POST" enctype="multipart/form-data">
             @csrf
+
             <div class="mb-3">
                 <!--duracion-->
                 <label for="duracion" class="form-label">Duración</label>
@@ -32,9 +33,9 @@
                 <input type="date" name="fechaPublicacion" id="fechaPublicacion" class="form-control"
                     placeholder="Fecha de publicacion" required>
             </div>
-            <!--volvemos al index-->
+            <!--volvemos al indice-->
             <button type="submit" class="btn btn-primary">Crear</button>
-            <a href="{{ route('podcast.index') }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('podcast.indice') }}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 @endsection

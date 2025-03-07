@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1>Editar podcast</h1>
-        <form action="{{ route('podcast.update', $podcast->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('podcast.actualizar', $podcast->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <!--duracion-->
@@ -37,8 +37,8 @@
             </div>
             <!--boton para actualizar-->
             <button type="submit" class="btn btn-primary">Actualizar</button>
-            <!--volvemos al index-->
-            <a href="{{ route('podcast.index') }}" class="btn btn-secondary">Cancelar</a>
+            <!--volvemos al indice-->
+            <a href="{{ route('podcast.indice') }}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 @endsection

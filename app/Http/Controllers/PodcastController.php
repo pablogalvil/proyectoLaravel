@@ -7,37 +7,38 @@ use App\Models\Podcast;
 use Illuminate\Support\Facades\Storage;
 class PodcastController extends Controller
 {
-    public function index()
+    //mostrar la lista de Podcast
+    public function indice()
     {
         $podcast = Podcast::all();
-        return view('podcast.index', compact('podcast'));
+        return view('podcast.indice', compact('podcast'));
     }
 
-    // Mostrar detalles de un Podcast
-    public function show($id)
+    // funcion para los detalles del podcast
+    public function mostrar($id)
     {
         $podcast = Podcast::findOrFail($id);
         return response()->json($podcast);
     }
 
     //funcion para eliminar
-    public function destroy($id)
+    public function eliminar($id)
     {
         //Con find sacamos el Podcast con el id que le introducimos de base de datos
         $Podcast = Podcast::find($id);
         //Con el Podcast recuperado lo borramos utilizando delete
         $Podcast->delete();
         //Redireccionamos a la lista de podcast
-        return redirect()->route('podcast.index')->with('success', 'Podcast eliminado correctamente.');
+        return redirect()->route('podcast.indice')->with('success', 'Podcast eliminado correctamente.');
     }
     //funcion para editar
-    public function edit($id)
+    public function editar($id)
     {
         $podcast = Podcast::findOrFail($id);
-        return view('podcast.edit', compact('podcast'));
+        return view('podcast.editar', compact('podcast'));
     }
     //funcion para actualizar
-    public function update(Request $request, $id)
+    public function actualizar(Request $request, $id)
     {
         $Podcast = Podcast::findOrFail($id);
         //campos requeridos en el formulario
@@ -63,7 +64,7 @@ class PodcastController extends Controller
             $carpetaPodcast = '/storage/public/app/imgenes/podcast/' . $Podcast->id;
 
             //Guardamos la imagen en el hd y obtenemos la ruta completa
-            $imagenPath = $request->file('imagen')->store($carpetaPodcast, 'public');
+            $imagenPath = $request->file('imagen')->update($carpetaPodcast, 'public');
 
             //Hay que añadir la ruta de la imagen a los datos que se van a 
             //insertar en bd
@@ -74,16 +75,16 @@ class PodcastController extends Controller
 
 
 
-        return redirect()->route('podcast.index')->with('success', 'Podcast actualizado correctamente.');
+        return redirect()->route('podcast.indice')->with('success', 'Podcast actualizado correctamente.');
     }
     //funcion para crear nuevo podcast
-    public function create()
+    public function crear()
     {
-        return view('podcast.create');
+        return view('podcast.crear');
     }
 
-
-    public function store(Request $request)
+    //funcion para insertar las imagenes
+    public function insertar(Request $request)
     {
         //campos requeridos en el formulario
         $request->validate([
@@ -104,14 +105,14 @@ class PodcastController extends Controller
             $carpetaPodcast = 'imagenes/podcast/' . $Podcast->id;
 
             //Guardamos el archivo en el disco duro y obtenemos la ruta completa
-            $imagePath = $request->file('imagen')->store($carpetaPodcast, 'public');
+            $imagePath = $request->file('imagen')->update($carpetaPodcast, 'public');
 
             //Actualizamos el Podcast con la nueva imagen
             $Podcast->update(['imagen' => $imagePath]); //imagen = $imagePath;
 
         }
-        //reedirigmos al index
-        return redirect()->route('podcast.index')->with('success', 'Podcast actualizado correctamente.');
+        //reedirigmos al indice
+        return redirect()->route('podcast.indice')->with('success', 'Podcast actualizado correctamente.');
     }
 
 }
