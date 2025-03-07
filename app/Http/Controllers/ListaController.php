@@ -12,4 +12,14 @@ class ListaController extends Controller
         $listas = $podcast->listas;
         return view('lista.mostrar', compact('listas'));
     }
+
+    function crear(){
+        return view('lista.crear');
+    }
+
+    function insertar(Request $request){
+        $podcast = Podcast::findOrFail($request->input('podcast_id'));
+        $podcast->listas()->create($request->all());
+        return redirect()->route('podcast.mostrar', $podcast->id);
+    }
 }
