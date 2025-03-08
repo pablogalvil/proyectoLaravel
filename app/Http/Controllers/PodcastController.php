@@ -66,7 +66,7 @@ class PodcastController extends Controller
             $carpetaPodcast = '/storage/public/app/imgenes/podcast/' . $Podcast->id;
 
             //Guardamos la imagen en el hd y obtenemos la ruta completa
-            $imagenPath = $request->file('imagen')->update($carpetaPodcast, 'public');
+            $imagenPath = $request->file('imagen')->store($carpetaPodcast, 'public');
 
             //Hay que añadir la ruta de la imagen a los datos que se van a 
             //insertar en bd
@@ -92,7 +92,6 @@ class PodcastController extends Controller
         $request->validate([
             'duracion' => 'required|integer|max:255|min:8',
             'nombre' => 'required|string|max:255',
-            'imagen' => 'nullable|string|max:255',
             'descripcion' => 'required|string|max:255|min:8',
             'fechaPublicacion' => 'required|date'
         ]);
@@ -107,7 +106,7 @@ class PodcastController extends Controller
             $carpetaPodcast = 'imagenes/podcast/' . $Podcast->id;
 
             //Guardamos el archivo en el disco duro y obtenemos la ruta completa
-            $imagePath = $request->file('imagen')->update($carpetaPodcast, 'public');
+            $imagePath = $request->file('imagen')->store($carpetaPodcast, 'public');
 
             //Actualizamos el Podcast con la nueva imagen
             $Podcast->update(['imagen' => $imagePath]); //imagen = $imagePath;

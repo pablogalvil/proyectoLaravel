@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->integer('edad');
             $table->string('email')->unique();
-            $table->string('contrasenia');
-            $table->string('imagen');
+            $table->string('imagen')->nullable();
             $table->timestamps();
         });
     }
