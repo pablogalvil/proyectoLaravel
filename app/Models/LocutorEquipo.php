@@ -27,4 +27,6 @@ class LocutorEquipo extends Model
     {
         return $this->belongsTo(Equipo::class);
     }
+
+
 }
