@@ -26,6 +26,20 @@ Route::middleware('auth')->group(function () {
     Route::post('/podcast/insertar', [PodcastController::class, 'insertar'])->name('podcast.insertar');
     //Ruta para mostrar el cliente
     Route::get('/podcast/mostrar/{id}', [PodcastController::class, 'mostrar'])->name('podcast.mostrar');
+
+    //Rutas listas
+    //Listado
+    Route::get('/lista', [App\Http\Controllers\ListaController::class, 'indice'])->name('lista.indice');
+    //Crear
+    Route::get('/lista/crear', [App\Http\Controllers\ListaController::class, 'crear'])->name('lista.crear');
+    Route::post('/lista/insertar', [App\Http\Controllers\ListaController::class, 'insertar'])->name('lista.insertar');
+    //Detalle
+    Route::get('/lista/mostrar/{id}', [App\Http\Controllers\ListaController::class, 'mostrar'])->name('lista.mostrar');
+    //Añadir
+    Route::get('/lista/aniadir', [App\Http\Controllers\ListaController::class, 'aniadir'])->name('lista.aniadir');
+    Route::post('/lista/agregar', [App\Http\Controllers\ListaController::class, 'agregar'])->name('lista.agregar');
+    //Eliminar
+    Route::get('/lista/eliminar/{id}', [App\Http\Controllers\ListaController::class, 'eliminar'])->name('lista.eliminar');
 });
 
 

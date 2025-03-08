@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('lista', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->integer('numPodcast');
-            $table->integer('duracion');
-            $table->date('fechaReproduccion');
-            $table->boolean('estado');
-            $table->string('descripcion');
+            $table->integer('numPodcast')->nullable();
+            $table->integer('duracion')->nullable();
+            $table->date('fechaReproduccion')->nullable();
+            $table->boolean('estado')->default(false);
+            $table->string('descripcion')->nullable();
             $table->timestamps();
         });
     }

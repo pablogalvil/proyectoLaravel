@@ -12,8 +12,7 @@ class PodcastController extends Controller
     public function indice()
     {
         $podcast = Podcast::all();
-        $listas = Lista::all();
-        return view('podcast.indice', compact('podcast', 'listas'));
+        return view('podcast.indice', compact('podcast'));
     }
 
     // funcion para los detalles del podcast

@@ -1,9 +1,14 @@
 @extends('layout.app')
 
 @section('content')
+    
+    <div class="lista">
+        <a href="{{ route('lista.indice') }}">Nuestras listas</a>
+    </div>
     <div class="container">
         <h1>Listado de podcasts</h1>
         <a href="{{ route('podcast.crear') }}" class="btn btn-primary mb-3">Nuevo podcast</a>
+        <a href="{{ route('lista.aniadir') }}" class="btn btn-primary mb-3">Añadir podcast a lista</a>
         <table class="table table-bordered">
             <thead>
                 <!--creamos la tabla -->
