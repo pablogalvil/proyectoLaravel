@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
     //Ruta para insertar un nuevo cliente
     Route::post('/podcast/store', [PodcastController::class, 'insertar'])->name('podcast.insertar');
     //Ruta para mostrar el cliente
-    Route::get('/podcast/show/{id}', [PodcastController::class, 'mostrar'])->name('podcast.mostrar');
+    Route::get('/podcast/mostrar/{id}', [PodcastController::class, 'mostrar'])->name('podcast.mostrar');
 });
 
 
