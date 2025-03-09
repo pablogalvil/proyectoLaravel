@@ -50,4 +50,17 @@ class ListaController extends Controller
     }
 
 
+
+    // Muesta la lista para la vista del usuario
+    public function mostrarTodas()
+    {
+        // Obtener todas las listas
+        $listas = Lista::all();
+    
+        // Retornar la vista con las listas
+        return view('lista.listaUsuario', compact('listas'));
+    }
+
+
+
 }

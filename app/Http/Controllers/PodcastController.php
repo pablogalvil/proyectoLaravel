@@ -6,8 +6,64 @@ use App\Models\Lista;
 use Illuminate\Http\Request;
 use App\Models\Podcast;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Comentario;
+use Illuminate\Support\Facades\Auth;
+
+
 class PodcastController extends Controller
 {
+
+    // Función para mostrar la lista de Podcast
+    public function listarPodcast()
+    {
+        // Obtener los podcasts paginados automáticamente (12 por página)
+        $podcasts = Podcast::orderBy('created_at', 'asc')->paginate(12);
+
+        // Devolver la vista con la paginación
+        return view('podcast.indexUsuario', compact('podcasts'));
+    }
+
+    // Función para mostrar la lista de Podcast del Admin
+    public function listarPodcastAdmin()
+    {
+        // Obtener los podcasts paginados automáticamente (12 por página)
+        $podcasts = Podcast::orderBy('created_at', 'asc')->paginate(12);
+
+        // Devolver la vista con la paginación
+        return view('podcast.indexAdmin', compact('podcasts'));
+    }
+
+     // Función para ver los comentarios de un podcast por el id del podcast
+     public function verComentarios($id)
+     {
+         // Obtenemos el podcast
+         $podcast = Podcast::with('comentarios.usuario')->findOrFail($id);
+         // Mostramos la vista con los comentarios
+         return view('podcast.comentariosPodcast', compact('podcast'));
+     }
+
+
+     // Función para guardar un comentario
+     public function guardarComentario(Request $request, $id)
+     {
+         $request->validate([
+             'descripcion' => 'required|string|max:500',
+         ]);
+     
+         Comentario::create([
+             'descripcion' => $request->descripcion,
+             'user_id' => Auth::id(),  // Aquí se asegura de que el usuario autenticado se guarde
+             'podcast_id' => $id,
+             'fecha' => now(),
+         ]);
+     
+         return redirect()->back()->with('success', 'Comentario publicado con éxito.');
+     }
+
+
+
+
+
     //mostrar la lista de Podcast
     public function indice()
     {

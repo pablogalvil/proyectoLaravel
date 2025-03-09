@@ -1,45 +1,41 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div>
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            @if (Laravel\Fortify\Features::canUpdateProfileInformation())
-                @livewire('profile.update-profile-information-form')
+@section('title', 'Perfil de ' . $user->name)
 
-                <x-section-border />
-            @endif
+@section('content')
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-md-8">
+        <h2 class="text-center mb-4">Perfil de {{ $user->name }}</h2>
 
-            @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
-                <div class="mt-10 sm:mt-0">
-                    @livewire('profile.update-password-form')
-                </div>
-
-                <x-section-border />
-            @endif
-
-            @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
-                <div class="mt-10 sm:mt-0">
-                    @livewire('profile.two-factor-authentication-form')
-                </div>
-
-                <x-section-border />
-            @endif
-
-            <div class="mt-10 sm:mt-0">
-                @livewire('profile.logout-other-browser-sessions-form')
+        <!-- Mostrar los datos del usuario -->
+        <div class="row">
+            <!-- Columna izquierda que ocupará más espacio -->
+            <div class="col-md-8 mb-4"  style="padding-left: 70px;">
+                <p><strong>Foto de perfil:</strong> 
+                    @if($user->image)
+                        <img src="{{ asset('storage/'.$user->image) }}" alt="Foto de perfil" class="rounded-circle" style="width: 100px; height: 100px;">
+                    @else
+                        <img src="{{ asset('images/default-avatar.png') }}" alt="Foto de perfil predeterminada" class="rounded-circle" style="width: 100px; height: 100px;">
+                    @endif
+                </p>
+                <p><strong>Nombre:</strong> {{ $user->name }}</p>
+                <p><strong>Email:</strong> {{ $user->email }}</p>
+                <p><strong>Rol:</strong> {{ $user->role }}</p>
             </div>
 
-            @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
-                <x-section-border />
+            <!-- Columna derecha que ocupará menos espacio -->
+            <div class="col-md-4 d-flex flex-column justify-content-center align-items-start mb-4" >
+                <!-- Botón para editar -->
+                <a href="{{ route('profile.edit') }}" class="btn mb-3" style="background-color: rgb(230, 198, 68); color: white;">Editar perfil</a>
 
-                <div class="mt-10 sm:mt-0">
-                    @livewire('profile.delete-user-form')
-                </div>
-            @endif
+                <!-- Formulario para eliminar usuario -->
+                <form method="POST" action="{{ route('profile.destroy') }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn" style="background-color: #ff5733; color: white;" onclick="return confirm('¿Estás seguro de que deseas eliminar tu cuenta?')">Eliminar cuenta</button>
+                </form>
+            </div>
         </div>
     </div>
-</x-app-layout>
+</div>
+@endsection
