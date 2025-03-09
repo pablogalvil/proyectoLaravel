@@ -46,5 +46,10 @@
                 </x-button>
             </div>
         </form>
+        <form class="mt-4" action="{{ route('github.redirect') }}" method="get" style="margin-top:10px; text-align:center">
+            @csrf
+            <x-label for="email" value="Login with GitHub" />
+            <button><?php echo $svg?></button>
+        </form>
     </x-authentication-card>
 </x-guest-layout>
