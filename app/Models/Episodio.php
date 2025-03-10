@@ -23,4 +23,11 @@ class Episodio extends Model
     {
         return $this->belongsTo(Podcast::class);
     }
+
+        // Método para obtener la URL completa del archivo de audio
+        public function getAudioUrl()
+        {
+            return asset('audio/' . $this->audio);
+        }
+    
 }

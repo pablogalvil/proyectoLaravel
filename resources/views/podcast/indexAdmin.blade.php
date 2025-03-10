@@ -17,15 +17,19 @@
                     <img src="{{ $podcast->imagen }}" class="card-img-top" alt="Imagen del podcast">
                     <div class="card-body">
                         <h5 class="card-title">
-                            <!-- Enlace al detalle del podcast (no usado más) -->
+                            <!-- Enlace al detalle del podcast -->
                             <a href="#" class="ver-detalles" data-id="{{ $podcast->id }}">{{ $podcast->nombre }}</a>
                         </h5>
                         <a href="/podcast/{{ $podcast->id }}/comentarios" class="btn btn-warning">
                             Comentarios
                         </a>
-                        <a href="" class="btn btn-warning">
-                            Reproducir
-                        </a>
+                        <button class="btn btn-warning">
+                            <a href="{{ route('podcast.reproducir', $podcast->id) }}" style="color: black; text-decoration: none;">Reproducir</a>
+                        </button>
+
+
+
+
 
                         <!-- Agregar iconos debajo de cada podcast -->
                         <div class="mt-3 d-flex justify-content-center">
@@ -81,6 +85,8 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('js/podcast.js') }}"></script>
 
 <script>
      //ruta imagen

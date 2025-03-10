@@ -8,6 +8,7 @@ use App\Models\Podcast;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Comentario;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Episodio;
 
 
 class PodcastController extends Controller
@@ -61,7 +62,50 @@ class PodcastController extends Controller
      }
 
 
+     public function audioPodcast($id)
+     {
+         // Buscar el podcast por el ID
+         $podcast = Podcast::find($id);
+     
+         if (!$podcast) {
+             return response()->json(['error' => 'Podcast no encontrado.'], 404);
+         }
+     
+         // Buscar el primer episodio del podcast
+         $episodio = $podcast->episodios()->first(); // Obtén el primer episodio relacionado con el podcast
+     
+         if (!$episodio) {
+             return response()->json(['error' => 'Episodio no encontrado.'], 404);
+         }
+     
+         // Retornar la URL del audio como respuesta JSON
+         return response()->json([
+             'audio_url' => asset('audio/' . $episodio->audio),
+         ]);
+     }
 
+
+     public function verReproductor($id)
+{
+    // Buscar el podcast por ID
+    $podcast = Podcast::find($id);
+    
+    if (!$podcast) {
+        return redirect()->route('podcast.indice')->with('error', 'Podcast no encontrado.');
+    }
+
+    // Buscar el primer episodio relacionado con este podcast
+    $episodio = $podcast->episodios()->first(); // Obtener el primer episodio
+
+    if (!$episodio) {
+        return redirect()->route('podcast.indice')->with('error', 'Episodio no encontrado.');
+    }
+
+    // Pasar el episodio a la vista 'reproductor'
+    return view('podcast.reproductor', compact('episodio'));
+}
+
+     
 
 
     //mostrar la lista de Podcast
