@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\ListaController;
 
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -62,6 +63,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Rutas de audio
+   // Route::get('/episodios/{id}', [PodcastController::class, 'audioPodcast']);
+
+   // Route::get('/reproductor/{id}', [PodcastController::class, 'mostrarReproductor'])->name('reproductor');
+
+    // Ruta para obtener la URL del audio del episodio
+    Route::get('/episodios/{id}', [PodcastController::class, 'audioPodcast']);
+
+    Route::get('/podcast/{id}/reproducir', [PodcastController::class, 'verReproductor']);
+    // Ruta para ver el reproductor del podcast
+Route::get('/podcast/{id}/reproducir', [PodcastController::class, 'verReproductor'])->name('podcast.reproducir');
+
+
 
 
 

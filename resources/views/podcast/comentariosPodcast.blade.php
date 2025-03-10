@@ -31,7 +31,7 @@
                         </div>
                     @endforeach
                 @else
-                    <p class="text-muted">Aún no hay comentarios para este podcast.</p>
+                <span class="text-white">Aún no hay comentarios para este podcast.</span>
                 @endif
             </div>
         </div>

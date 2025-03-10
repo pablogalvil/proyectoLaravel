@@ -17,6 +17,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <!-- Aquí agregamos el enlace de los iconos de Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Howler.js -->
+    <script src="https://cdn.jsdelivr.net/npm/howler"></script>
 
 
     
@@ -35,7 +37,7 @@
         }
 
         main {
-            background-color: grey;
+            background-color: #43444c;
         }
 
         .card {
