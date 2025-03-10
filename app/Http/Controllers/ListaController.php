@@ -27,7 +27,7 @@ class ListaController extends Controller
         $lista = new Lista();
         $lista->nombre = $request->input('nombre');
         $lista->save();
-        return redirect()->route('podcast.indice');
+        return redirect()->route('lista.indice');
     }
 
     function aniadir(){

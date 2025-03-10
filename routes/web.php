@@ -71,10 +71,9 @@ Route::middleware('auth')->group(function () {
 
     // Ruta para obtener la URL del audio del episodio
     Route::get('/episodios/{id}', [PodcastController::class, 'audioPodcast']);
-
-    Route::get('/podcast/{id}/reproducir', [PodcastController::class, 'verReproductor']);
+    
     // Ruta para ver el reproductor del podcast
-Route::get('/podcast/{id}/reproducir', [PodcastController::class, 'verReproductor'])->name('podcast.reproducir');
+    Route::get('/podcast/{id}/reproducir', [PodcastController::class, 'verReproductor'])->name('podcast.reproducir');
 
 
 

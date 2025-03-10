@@ -26,11 +26,6 @@
                         <button class="btn btn-warning">
                             <a href="{{ route('podcast.reproducir', $podcast->id) }}" style="color: black; text-decoration: none;">Reproducir</a>
                         </button>
-
-
-
-
-
                         <!-- Agregar iconos debajo de cada podcast -->
                         <div class="mt-3 d-flex justify-content-center">
                             <!-- Enlace para editar el podcast -->
