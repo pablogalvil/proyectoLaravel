@@ -17,6 +17,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <!-- Aquí agregamos el enlace de los iconos de Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
     
 
 
@@ -87,7 +89,7 @@
         @if (Auth::check()) <!-- Verifica si el usuario está autenticado -->
             <div class="d-flex align-items-center">
                 <!-- Nombre del usuario -->
-                <p class="text-white mb-0 me-4">{{ Auth::user()->name }}</p>
+                <a href="{{ route('profile.show') }}" class="text-white mb-0 me-4">{{ Auth::user()->name }}</a>
 
                 <!-- Ícono de Logout -->
                 <a href="{{ route('logout') }}" class="text-white" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -164,6 +166,11 @@
     @stack('modals')
 
     @livewireScripts
+
+    <!-- Bootstrap JS (necesario para que funcione el modal) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    
 </body>
 
 </html>
