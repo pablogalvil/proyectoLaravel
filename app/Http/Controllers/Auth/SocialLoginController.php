@@ -1,7 +1,8 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
@@ -28,11 +29,20 @@ class SocialLoginController extends Controller
                 'role' => 'user'
             ]);
 
-            Auth::login($user);
+            // Descargar la imagen de GitHub y guardarla
+            $imageContents = Http::get($userGithub->avatar)->body();
+            $imagePath = 'imagenes/user/' . $user->id . '/avatar.jpg'; // Ruta de almacenamiento
+
+            Storage::disk('public')->put($imagePath, $imageContents);
+
+            // Guardar la ruta en la base de datos
+            $user->update(['image' => $imagePath]);
+
         }else{
             $user = User::where('email', $userGithub->email)->first();
-            Auth::login($user);
         }
+
+        Auth::login($user);
 
         return redirect('/podcast');
     }
