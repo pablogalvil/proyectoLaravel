@@ -75,7 +75,6 @@
     <x-banner />
 
     <div class="min-h-screen bg-gray-100">
-        @livewire('navigation-menu')
 
         <!-- Cabecera personalizada -->
         <header class="bg-dark py-3">
