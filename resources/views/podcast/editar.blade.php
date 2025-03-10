@@ -23,6 +23,11 @@
                 <label for="imagen" class="form-label">Imagen</label>
                 <input type="file" name="imagen" id="imagen" class="form-control">
             </div>
+            <!--audio-->
+            <div class="mb-3">
+                <label for="audio" class="form-label">Añadir audio</label>
+                <input type="file" name="audio" id="audio" class="form-control" placeholder="audio">
+            </div>
             <!--descripcion-->
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>

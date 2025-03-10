@@ -61,35 +61,53 @@
     </div>
 
     <script>
-        //ruta imagen
-        let rutaImg = "/storage/imagenes/podcast/";
         document.addEventListener("DOMContentLoaded", function () {
-            //capturamos el elemento con la clase ver-detalles
+            let rutaImg = "/storage/imagenes/podcast/";
+
             document.querySelectorAll(".ver-detalles").forEach(button => {
                 button.addEventListener("click", function () {
-                    //capturamos el id del podcast
                     let podcastId = this.getAttribute("data-id");
-                    //hacemos un fetch para obtener los detalles del podcast (AJAX)
+
                     fetch(`/podcast/mostrar/${podcastId}`)
-
-
                         .then(response => response.json())
                         .then(data => {
-                            //mostramos los detalles del podcast
-                            let detallesHtml = `                                   <p><img src="${rutaImg}${data.imagen}" width="100" height="100" alt="Imagen del Podcast"></p>
-                                                                                                        <p><strong>Título:</strong> ${data.nombre}</p>
-                                                                                                        <p><strong>Duración:</strong> ${data.duracion}</p>
-                                                                                                        <p><strong>Descripción:</strong> ${data.descripcion}</p>
-                                                                                                        <p><strong>Fecha de publicación:</strong> ${data.fechaPublicacion}</p>
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>`;
-                            //capturamos el elemento con el id detallesPodcast
+                            let detallesHtml = `
+                                                    <p><strong>Imagen:</strong> <img src="${rutaImg}${data.imagen}" width="100" height="100" alt="Imagen del Podcast"></p>
+                                                    <p><strong>Título:</strong> ${data.nombre}</p>
+                                                    <p><strong>Duración:</strong> ${data.duracion}</p>
+                                                    <p><strong>Descripción:</strong> ${data.descripcion}</p>
+                                                    <p><strong>Fecha de publicación:</strong> ${data.fechaPublicacion}</p>
+                                                    <button id="verMas" class="btn btn-info">Ver más</button>
+                                                    <div id="infoExtra" style="display:none; margin-top:10px;">
+                                                        <h5>Información relacionada</h5>
+                                                        <p><strong>Locutores:</strong> ${data.locutores.map(l => l.nombre).join(", ") || "No disponible"}</p>
+                                                        <p><strong>Géneros:</strong> ${data.generos.map(g => g.nombre).join(", ") || "No disponible"}</p>
+                                                        <p><strong>Invitados:</strong> ${data.invitados.map(i => i.nombre).join(", ") || "No disponible"}</p>
+                                                        <p><strong>Equipos por locutor:</strong></p>
+                                                        <ul>
+                                                            ${data.locutores.map(locutor =>
+                                `<li>${locutor.nombre}: ${locutor.equipos.map(equipo => equipo.nombre).join(", ") || "Sin equipo"}</li>`
+                            ).join("")}
+                                                        </ul>
+                                                    </div>
+                                                `;
+
                             document.getElementById("detallesPodcast").innerHTML = detallesHtml;
-                            // mostramos el modal con los detalles
+
                             let modal = new bootstrap.Modal(document.getElementById("modalDetalles"));
                             modal.show();
-                        });
+
+                            setTimeout(() => {
+                                document.getElementById("verMas").addEventListener("click", function () {
+                                    let infoExtra = document.getElementById("infoExtra");
+                                    infoExtra.style.display = infoExtra.style.display === "none" ? "block" : "none";
+                                });
+                            }, 500);
+                        })
+                        .catch(error => console.error('Error al obtener los detalles:', error));
                 });
             });
         });
     </script>
+
 @endsection
