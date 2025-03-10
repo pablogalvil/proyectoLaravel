@@ -81,49 +81,38 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Ruta base para las imágenes (ajustar si es necesario)
-        let rutaImg = "/storage/imagenes/podcast/";
-
-        // Capturamos todos los enlaces con la clase "ver-detalles"
+     //ruta imagen
+     let rutaImg = "/storage/imagenes/podcast/";
+    document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".ver-detalles").forEach(button => {
-            button.addEventListener("click", function (e) {
-                e.preventDefault();  // Evita que el enlace haga su acción predeterminada (navegar a una URL)
+            button.addEventListener("click", function(event) {
+                event.preventDefault(); // Evita que el enlace navegue a otra página
 
-                // Obtenemos el ID del podcast
                 let podcastId = this.getAttribute("data-id");
+                console.log("ID del podcast:", podcastId);
 
-                // Hacemos una solicitud fetch para obtener los detalles del podcast
-                fetch(`/podcast/mostrar/${podcastId}`, {
-                    method: 'GET',  // Usamos el método GET para obtener los detalles
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')  // Incluimos el token CSRF en los encabezados
-                    }
-                })
-                .then(response => response.json())  // Convertimos la respuesta en formato JSON
-                .then(data => {
-                    // Preparamos el contenido para mostrar en el modal
-                    let detallesHtml = `
-                        <p><img src="/storage/imagenes/podcast/${data.imagen}" width="100" height="100" alt="Imagen del Podcast"></p>
-                        <p><strong>Título:</strong> ${data.nombre}</p>
-                        <p><strong>Duración:</strong> ${data.duracion}</p>
-                        <p><strong>Descripción:</strong> ${data.descripcion}</p>
-                        <p><strong>Fecha de publicación:</strong> ${data.fechaPublicacion}</p>
+                fetch(`/podcast/mostrar/${podcastId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Datos recibidos:", data); // Verificar si los datos llegan aquí
+
+                        let detallesHtml = `
+                        <p><img src="${rutaImg}${data.imagen}" width="100" height="100" alt="Imagen del Podcast"></p>
+                        <p class="text-dark"><strong>Título:</strong> ${data.nombre}</p>
+                        <p class="text-dark" ><strong>Duración:</strong> ${data.duracion}</p>
+                        <p class="text-dark" ><strong>Descripción:</strong> ${data.descripcion}</p>
+                        <p class="text-dark"><strong>Fecha de publicación:</strong> ${data.fechaPublicacion}</p>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>`;
 
-                    // Actualizamos el contenido del modal
-                    document.getElementById("detallesPodcast").innerHTML = detallesHtml;
+                        document.getElementById("detallesPodcast").innerHTML = detallesHtml;
 
-                    // Creamos el objeto Modal de Bootstrap y lo mostramos
-                    let modal = new bootstrap.Modal(document.getElementById("modalDetalles"));
-                    modal.show();
-                })
-                .catch(error => {
-                    // Si ocurre un error, lo mostramos en la consola
-                    console.error('Error al cargar los detalles:', error);
-                });
+                        let modalElement = document.getElementById("modalDetalles");
+                        let modal = new bootstrap.Modal(modalElement);
+                        modal.show();
+                    })
+                    .catch(error => console.error("Error al cargar los detalles:", error));
             });
         });
     });
