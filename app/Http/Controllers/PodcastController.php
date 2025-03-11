@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Comentario;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Episodio;
-
+use App\Models\User;
 
 class PodcastController extends Controller
 {
@@ -38,7 +38,7 @@ class PodcastController extends Controller
     public function verComentarios($id)
     {
         // Obtenemos el podcast
-        $podcast = Podcast::with('comentarios.usuario')->findOrFail($id);
+        $podcast = Podcast::with(['comentarios.usuario'])->findOrFail($id);
         // Mostramos la vista con los comentarios
         return view('podcast.comentariosPodcast', compact('podcast'));
     }

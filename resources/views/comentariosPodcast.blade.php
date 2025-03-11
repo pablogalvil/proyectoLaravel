@@ -72,7 +72,18 @@
             <?php if (count($podcast->comentarios) > 0): ?>
                     <?php foreach ($podcast->comentarios as $comentario): ?>
                         <div class="comment">
-                            <img src="<?= $comentario->usuario->imagen ?? '/images/default-avatar.png' ?>" alt="Usuario">
+                            @if($comentario->user->image)
+                                @if(filter_var($comentario->user->image, FILTER_VALIDATE_URL))
+                                    <!-- Si la imagen es una URL válida, mostrarla -->
+                                    <img src="{{ $comentario->usuario->image }}" alt="Foto de perfil" class="rounded-circle" style="width: 100px; height: 100px;">
+                                @else
+                                    <!-- Si la imagen no es una URL, usar la imagen local -->
+                                    <img src="{{ asset('storage/'.$comentario->usuario->image) }}" alt="Foto de perfil" class="rounded-circle" style="width: 100px; height: 100px;">
+                                @endif
+                            @else
+                                <!-- Imagen por defecto si no hay imagen -->
+                                <img src="{{ asset('images/default-avatar.png') }}" alt="Foto de perfil predeterminada" class="rounded-circle" style="width: 100px; height: 100px;">
+                            @endif
                             <div class="comment-content">
                                 <p class="comment-user"><?= htmlspecialchars($comentario->usuario->nombre) ?></p>
                                 <p class="comment-date"><?= htmlspecialchars($comentario->fecha) ?></p>
@@ -88,7 +99,11 @@
     </div>
 
     <div class="container text-center">
-        <a href="{{ url('/listadoPodcast') }}" class="btn btn-light">Volver</a>
+        @if(auth()->user()->role == 'admin')
+            <a href="{{ route('podcast.listarPodcastAdmin') }}" class="btn btn-light">Volver</a>
+        @else
+            <a href="{{ route('podcast.listar') }}" class="btn btn-light">Volver</a>
+        @endif
     </div>
     
 

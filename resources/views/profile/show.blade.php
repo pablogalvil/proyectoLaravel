@@ -22,7 +22,7 @@
                     @endif
                 @else
                     <!-- Imagen por defecto si no hay imagen -->
-                    <img src="{{ asset('images/default-avatar.png') }}" alt="Foto de perfil predeterminada" class="rounded-circle" style="width: 100px; height: 100px;">
+                    <img src="{{ asset('storage/images/default-avatar.png') }}" alt="Foto de perfil predeterminada" class="rounded-circle" style="width: 100px; height: 100px;">
                 @endif
             </p>
                 <p><strong>Nombre:</strong> {{ $user->name }}</p>
