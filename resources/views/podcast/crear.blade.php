@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Crear podcast</h1>
+        <h1 class="text-center display-6 pt-3">Crear podcast</h1>
         <form action="{{ route('podcast.insertar') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
@@ -38,9 +38,11 @@
                 <input type="date" name="fechaPublicacion" id="fechaPublicacion" class="form-control"
                     placeholder="Fecha de publicacion" required>
             </div>
+            <div class = "pb-3">
             <!--volvemos al indice-->
-            <button type="submit" class="btn btn-primary">Crear</button>
+            <button type="submit" class="btn btn-warning">Crear</button>
             <a href="{{ route('podcast.listarPodcastAdmin') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
         </form>
     </div>
 @endsection

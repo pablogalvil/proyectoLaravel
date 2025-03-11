@@ -97,7 +97,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalDetallesLabel">Detalles del podcast</h5>
+                <h5 class="modal-title text-black" id="modalDetallesLabel">Detalles del podcast</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="detallesPodcast">
@@ -131,7 +131,7 @@
                         <p class="text-dark" ><strong>Duración:</strong> ${data.duracion}</p>
                         <p class="text-dark" ><strong>Descripción:</strong> ${data.descripcion}</p>
                         <p class="text-dark"><strong>Fecha de publicación:</strong> ${data.fechaPublicacion}</p>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>`;
+                        <button type="button" class="btn btn-secondary mt-2" data-bs-dismiss="modal">Cerrar</button>`;
 
                         document.getElementById("detallesPodcast").innerHTML = detallesHtml;
 

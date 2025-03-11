@@ -1,80 +1,104 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container text-center">
-        <h2>Últimos Episodios</h2>
-        <p>Escucha nuestros podcasts y deja tu comentario</p>
+<div class="container text-center">
+    <h2>Últimos Episodios</h2>
+    <p>Escucha nuestros podcasts y deja tu comentario</p>
 
-        <div class="lista mt-4 fs-5">
-            <a href="{{ route('lista.indiceUsuario') }}">Explora nuestras listas</a>
-        </div>
-
-        <!-- Contenedor de Podcasts -->
-        <div class="row row-cols-1 row-cols-md-4 g-4 mt-4">
-            @foreach ($podcasts as $podcast)
-                <div class="col">
-                    <div class="card h-100 text-center">
-                        <img src="/storage/{{ $podcast->imagen }}" class="card-img-top" alt="Imagen del podcast">
-                        <div class="card-body">
-                            <h5 class="card-title">
-
-                                <td><a href="javascript:void(0);" class="ver-detalles"
-                                        data-id="{{ $podcast->id }}">{{ $podcast->nombre }}</a></td>
-
-                            </h5>
-                            <a href="/podcast/{{ $podcast->id }}/comentarios" class="btn btn-warning">
-                                Comentarios
-                            </a>
-                            <a href="" class="btn btn-warning">
-                                Reproducir
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
-        <!-- Paginación -->
-        <div class="mt-5 text-center pb-4">
-            @if ($podcasts->hasMorePages())
-                <a href="{{ $podcasts->nextPageUrl() }}" class="btn btn-warning">Ver más</a>
-            @endif
-        </div>
+    <div class="lista mt-4 fs-5">
+        <a href="{{ route('lista.indiceUsuario') }}">Explora nuestras listas</a>
     </div>
-    <!-- Modal para detalles -->
-    <div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalDetallesLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalDetallesLabel">Detalles del podcast</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="detallesPodcast">
-                    Cargando...
 
+    <!-- Contenedor de Podcasts -->
+    <div class="row row-cols-1 row-cols-md-4 g-4 mt-4">
+        @foreach ($podcasts as $podcast)
+        <div class="col">
+            <div class="card h-100 text-center">
+                <img src="/storage/{{ $podcast->imagen }}" class="card-img-top" alt="Imagen del podcast">
+                <div class="card-body">
+                    <h5 class="card-title">
+
+                        <td><a href="javascript:void(0);" class="ver-detalles"
+                                data-id="{{ $podcast->id }}">{{ $podcast->nombre }}</a></td>
+
+                    </h5>
+                    <a href="/podcast/{{ $podcast->id }}/comentarios" class="btn btn-warning">
+                        Comentarios
+                    </a>
+                    <button class="btn btn-warning">
+                        <a href="{{ route('podcast.reproducir', $podcast->id) }}" style="color: black; text-decoration: none;">Reproducir</a>
+                    </button>
                 </div>
             </div>
         </div>
+        @endforeach
     </div>
 
-    <script>
-        // Ruta imagen
-        let rutaImg = "/storage/";
+    <!-- Paginación -->
+<div class="mt-5 text-center pb-4">
+    <!-- Flecha página anterior -->
+    @if ($podcasts->onFirstPage())
+        <!-- Flecha deshabilitada si estamos en la primera página -->
+        <span class="text-muted">
+            <i class="fas fa-arrow-left"></i> 
+        </span> 
+    @else
+        <a href="{{ $podcasts->previousPageUrl() }}" class="btn btn-link" style="color: white;">
+            <i class="fas fa-arrow-left" style="color: white;"></i> 
+        </a>
+    @endif
+
+    <!-- Ver más en el medio -->
+    <span class="mx-3" style="color: white;">
+        Página {{ $podcasts->currentPage() }} de {{ $podcasts->lastPage() }}
+    </span>
+
+    <!-- Flecha página siguiente -->
+    @if ($podcasts->hasMorePages())
+        <a href="{{ $podcasts->nextPageUrl() }}" class="btn btn-link" style="color: white;">
+            <i class="fas fa-arrow-right"></i> 
+        </a>
+    @else
+        <span class="text-muted">
+            <i class="fas fa-arrow-right" style="color: white;"></i> 
+        </span>
+    @endif
+</div>
+</div>
+<!-- Modal para detalles -->
+<div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalDetallesLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDetallesLabel">Detalles del podcast</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="detallesPodcast">
+                Cargando...
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Ruta imagen
+    let rutaImg = "/storage/";
 
 
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".ver-detalles").forEach(button => {
-                button.addEventListener("click", function (event) {
-                    event.preventDefault(); // Evita que el enlace navegue a otra página
-                    let podcastId = this.getAttribute("data-id");
-                    console.log("ID del podcast:", podcastId);
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".ver-detalles").forEach(button => {
+            button.addEventListener("click", function(event) {
+                event.preventDefault(); // Evita que el enlace navegue a otra página
+                let podcastId = this.getAttribute("data-id");
+                console.log("ID del podcast:", podcastId);
 
-                    fetch(`/podcast/mostrar/${podcastId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log("Datos recibidos:", data); // Verificar si los datos llegan aquí
+                fetch(`/podcast/mostrar/${podcastId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Datos recibidos:", data); // Verificar si los datos llegan aquí
 
-                            let detallesHtml = `
+                        let detallesHtml = `
                                 <p><img src="${rutaImg}${data.imagen}" width="100" height="100" alt="Imagen del Podcast"></p>
                                 <p class="text-dark"><strong>Título:</strong> ${data.nombre}</p>
                                 <p class="text-dark"><strong>Duración:</strong> ${data.duracion}</p>
@@ -96,24 +120,24 @@
                                 </div>
                             `;
 
-                            document.getElementById("detallesPodcast").innerHTML = detallesHtml;
+                        document.getElementById("detallesPodcast").innerHTML = detallesHtml;
 
-                            // Mostrar el modal
-                            let modal = new bootstrap.Modal(document.getElementById("modalDetalles"));
-                            modal.show();
+                        // Mostrar el modal
+                        let modal = new bootstrap.Modal(document.getElementById("modalDetalles"));
+                        modal.show();
 
-                            // Evento asincrónico para el botón "Ver más"
-                            setTimeout(() => {
-                                document.getElementById("verMas").addEventListener("click", function () {
-                                    let infoExtra = document.getElementById("infoExtra");
-                                    infoExtra.style.display = infoExtra.style.display === "none" ? "block" : "none";
-                                });
-                            }, 500);
-                        })
-                        .catch(error => console.error('Error al obtener los detalles:', error));
-                });
+                        // Evento asincrónico para el botón "Ver más"
+                        setTimeout(() => {
+                            document.getElementById("verMas").addEventListener("click", function() {
+                                let infoExtra = document.getElementById("infoExtra");
+                                infoExtra.style.display = infoExtra.style.display === "none" ? "block" : "none";
+                            });
+                        }, 500);
+                    })
+                    .catch(error => console.error('Error al obtener los detalles:', error));
             });
         });
-    </script>
+    });
+</script>
 
 @endsection
