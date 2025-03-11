@@ -12,58 +12,84 @@
     <!-- Contenedor de Podcasts -->
     <div class="row row-cols-1 row-cols-md-4 g-4 mt-4">
         @foreach ($podcasts as $podcast)
-            <div class="col">
-                <div class="card h-100 text-center">
-                    <img src="/storage/{{ $podcast->imagen }}" class="card-img-top" alt="Imagen del podcast">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <!-- Enlace al detalle del podcast -->
-                            <a href="#" class="ver-detalles" data-id="{{ $podcast->id }}">{{ $podcast->nombre }}</a>
-                        </h5>
-                        <a href="/podcast/{{ $podcast->id }}/comentarios" class="btn btn-warning">
-                            Comentarios
+        <div class="col">
+            <div class="card h-100 text-center">
+                <img src="/storage/{{ $podcast->imagen }}" class="card-img-top" alt="Imagen del podcast">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <!-- Enlace al detalle del podcast -->
+                        <a href="#" class="ver-detalles" data-id="{{ $podcast->id }}">{{ $podcast->nombre }}</a>
+                    </h5>
+                    <a href="/podcast/{{ $podcast->id }}/comentarios" class="btn btn-warning">
+                        Comentarios
+                    </a>
+                    <button class="btn btn-warning">
+                        <a href="{{ route('podcast.reproducir', $podcast->id) }}" style="color: black; text-decoration: none;">Reproducir</a>
+                    </button>
+                    <!-- Agregar iconos debajo de cada podcast -->
+                    <div class="mt-3 d-flex justify-content-center">
+                        <!-- Enlace para editar el podcast -->
+                        <a href="{{ route('podcast.editar', $podcast->id) }}">
+                            <img src="{{ asset('icons/editar.png') }}" alt="Editar" class="icono-podcast" style="width: 24px; height: 24px;">
                         </a>
-                        <button class="btn btn-warning">
-                            <a href="{{ route('podcast.reproducir', $podcast->id) }}" style="color: black; text-decoration: none;">Reproducir</a>
-                        </button>
-                        <!-- Agregar iconos debajo de cada podcast -->
-                        <div class="mt-3 d-flex justify-content-center">
-                            <!-- Enlace para editar el podcast -->
-                            <a href="{{ route('podcast.editar', $podcast->id) }}">
-                                <img src="{{ asset('icons/editar.png') }}" alt="Editar" class="icono-podcast" style="width: 24px; height: 24px;">
-                            </a>
 
-                            <!-- Formulario para eliminar el podcast -->
-                            <form action="{{ route('podcast.eliminar', $podcast->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-link p-0" onclick="return confirm('¿Estás seguro de eliminar este podcast?')">
-                                    <img src="{{ asset('icons/eliminar.png') }}" alt="Eliminar" class="icono-podcast" style="width: 24px; height: 24px;">
-                                </button>
-                            </form>
-                            
-                            <!-- Enlace para agregar el podcast a una lista -->
-                            <a href="{{ route('podcast.crear') }}" class="ml-3">
-                                <img src="{{ asset('icons/agregar.png') }}" alt="Agregar" class="icono-podcast" style="width: 24px; height: 24px;">
-                            </a>
+                        <!-- Formulario para eliminar el podcast -->
+                        <form action="{{ route('podcast.eliminar', $podcast->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-link p-0" onclick="return confirm('¿Estás seguro de eliminar este podcast?')">
+                                <img src="{{ asset('icons/eliminar.png') }}" alt="Eliminar" class="icono-podcast" style="width: 24px; height: 24px;">
+                            </button>
+                        </form>
 
-                            <!-- Enlace para ver detalles del podcast -->
-                            <a href="#" class="ml-3 ver-detalles" data-id="{{ $podcast->id }}">
-                                <img src="{{ asset('icons/ver.png') }}" alt="Ver" class="icono-podcast" style="width: 24px; height: 24px;">
-                            </a>
-                        </div>
+                        <!-- Enlace para agregar el podcast a una lista -->
+                        <a href="{{ route('podcast.crear') }}" class="ml-3">
+                            <img src="{{ asset('icons/agregar.png') }}" alt="Agregar" class="icono-podcast" style="width: 24px; height: 24px;">
+                        </a>
+
+                        <!-- Enlace para ver detalles del podcast -->
+                        <a href="#" class="ml-3 ver-detalles" data-id="{{ $podcast->id }}">
+                            <img src="{{ asset('icons/ver.png') }}" alt="Ver" class="icono-podcast" style="width: 24px; height: 24px;">
+                        </a>
                     </div>
                 </div>
             </div>
+        </div>
         @endforeach
     </div>
 
-    <!-- Paginación -->
-    <div class="mt-5 text-center pb-4">
-        @if ($podcasts->hasMorePages())
-            <a href="{{ $podcasts->nextPageUrl() }}" class="btn btn-warning">Ver más</a>
-        @endif
-    </div>
+<!-- Paginación -->
+<div class="mt-5 text-center pb-4">
+    <!-- Flecha página anterior -->
+    @if ($podcasts->onFirstPage())
+        <!-- Flecha deshabilitada si estamos en la primera página -->
+        <span class="text-muted">
+            <i class="fas fa-arrow-left"></i> 
+        </span> 
+    @else
+        <a href="{{ $podcasts->previousPageUrl() }}" class="btn btn-link" style="color: white;">
+            <i class="fas fa-arrow-left" style="color: white;"></i> 
+        </a>
+    @endif
+
+    <!-- Ver más en el medio -->
+    <span class="mx-3" style="color: white;">
+        Página {{ $podcasts->currentPage() }} de {{ $podcasts->lastPage() }}
+    </span>
+
+    <!-- Flecha página siguiente -->
+    @if ($podcasts->hasMorePages())
+        <a href="{{ $podcasts->nextPageUrl() }}" class="btn btn-link" style="color: white;">
+            <i class="fas fa-arrow-right"></i> 
+        </a>
+    @else
+        <span class="text-muted">
+            <i class="fas fa-arrow-right" style="color: white;"></i> 
+        </span>
+    @endif
+</div>
+
+
 </div>
 
 <!-- Modal para detalles -->
@@ -84,8 +110,8 @@
 <script src="{{ asset('js/podcast.js') }}"></script>
 
 <script>
-     //ruta imagen
-     let rutaImg = "/storage/";
+    //ruta imagen
+    let rutaImg = "/storage/";
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".ver-detalles").forEach(button => {
             button.addEventListener("click", function(event) {
