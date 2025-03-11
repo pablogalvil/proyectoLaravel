@@ -110,8 +110,6 @@ class PodcastController extends Controller
     }
 
 
-
-
     // funcion para los detalles del podcast
     public function mostrar($id)
     {
