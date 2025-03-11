@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-    
+
     <div class="lista">
         <a href="{{ route('lista.indice') }}">Nuestras listas</a>
     </div>
@@ -61,53 +61,34 @@
     </div>
 
     <script>
-        //cargamos los detalles del podcast
+        // Cargamos los detalles del podcast
         document.addEventListener("DOMContentLoaded", function () {
-            //ruta del podcast
+            // Ruta del podcast
             let rutaImg = "/storage/imagenes/podcast/";
-            //mostramos boton ver detalles
+
+            // Mostramos botón "Ver detalles"
             document.querySelectorAll(".ver-detalles").forEach(button => {
                 button.addEventListener("click", function () {
                     let podcastId = this.getAttribute("data-id");
-                    //con fecth hacemos la peticion
-                    //es la forma mas moderna para usar ajax
+
+                    // Hacemos la petición con fetch (forma moderna de usar AJAX)
                     fetch(`/podcast/mostrar/${podcastId}`)
                         .then(response => response.json())
                         .then(data => {
-                            //mostramos los detalles
+                            // Mostramos los detalles
                             let detallesHtml = `
-                                                                        <p><strong>Imagen:</strong> <img src="${rutaImg}${data.imagen}" width="100" height="100" alt="Imagen del Podcast"></p>
-                                                                        <p><strong>Título:</strong> ${data.nombre}</p>
-                                                                        <p><strong>Duración:</strong> ${data.duracion}</p>
-                                                                        <p><strong>Descripción:</strong> ${data.descripcion}</p>
-                                                                        <p><strong>Fecha de publicación:</strong> ${data.fechaPublicacion}</p>
-                                                                        <button id="verMas" class="btn btn-info">Ver más</button>
-                                                                        <div id="infoExtra" style="display:none; margin-top:10px;">
-                                                                            <h5>Información relacionada</h5>
-                                                                            <p><strong>Locutores:</strong> ${data.locutores.map(l => l.nombre).join(", ") || "No disponible"}</p>
-                                                                            <p><strong>Géneros:</strong> ${data.generos.map(g => g.nombre).join(", ") || "No disponible"}</p>
-                                                                            <p><strong>Invitados:</strong> ${data.invitados.map(i => i.nombre).join(", ") || "No disponible"}</p>
-                                                                            <p><strong>Equipos por locutor:</strong></p>
-                                                                            <ul>
-                                                                                ${data.locutores.map(locutor =>
-                                `<li>${locutor.nombre}: ${locutor.equipos.map(equipo => equipo.nombre).join(", ") || "Sin equipo"}</li>`
-                            ).join("")}
-                                                                            </ul>
-                                                                        </div>
-                                                                    `;
+                                    <p><strong>Imagen:</strong> <img src="${rutaImg}${data.imagen}" width="100" height="100" alt="Imagen del Podcast"></p>
+                                    <p><strong>Título:</strong> ${data.nombre}</p>
+                                    <p><strong>Duración:</strong> ${data.duracion}</p>
+                                    <p><strong>Descripción:</strong> ${data.descripcion}</p>
+                                    <p><strong>Fecha de publicación:</strong> ${data.fechaPublicacion}</p>
+                                `;
 
                             document.getElementById("detallesPodcast").innerHTML = detallesHtml;
-                            //con modal mostramos los detalles 
+
+                            // Mostramos el modal con los detalles
                             let modal = new bootstrap.Modal(document.getElementById("modalDetalles"));
                             modal.show();
-                            //hacemos un evento asincrono para mostrar para cargar mas datos en el modal
-                            //si se pulsa el boton de ver mas
-                            setTimeout(() => {
-                                document.getElementById("verMas").addEventListener("click", function () {
-                                    let infoExtra = document.getElementById("infoExtra");
-                                    infoExtra.style.display = infoExtra.style.display === "none" ? "block" : "none";
-                                });
-                            }, 500);
                         })
                         .catch(error => console.error('Error al obtener los detalles:', error));
                 });
