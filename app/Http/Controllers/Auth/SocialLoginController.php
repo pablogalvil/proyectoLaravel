@@ -44,6 +44,6 @@ class SocialLoginController extends Controller
 
         Auth::login($user);
 
-        return redirect('/podcast');
+        return redirect('/indexUsuario');
     }
 }
