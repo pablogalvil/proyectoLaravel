@@ -51,6 +51,7 @@
                 </div>
                 <div class="modal-body" id="detallesPodcast">
                     Cargando...
+
                 </div>
             </div>
         </div>
@@ -60,11 +61,11 @@
         // Ruta imagen
         let rutaImg = "/storage/";
 
+
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".ver-detalles").forEach(button => {
                 button.addEventListener("click", function (event) {
                     event.preventDefault(); // Evita que el enlace navegue a otra página
-
                     let podcastId = this.getAttribute("data-id");
                     console.log("ID del podcast:", podcastId);
 
