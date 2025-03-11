@@ -13,6 +13,11 @@ class ListaController extends Controller
         return view('lista.indice', compact('listas'));
     }
 
+    function indiceUsuario(){
+        $listas = Lista::all();
+        return view('lista.indiceUsuario', compact('listas'));
+    }
+
     function mostrar($id){
         $listas = Lista::findOrFail($id);
         $podcasts = $listas->podcasts;

@@ -20,9 +20,11 @@
                         <td>{{ $podcast->titulo }}</td>
                         <td>{{ $podcast->descripcion }}</td>
                         <td>{{ $podcast->fecha_publicacion }}</td>
-                        <td>
-                            <a href="{{ route('lista.eliminar', $podcast->id) }}" class="btn btn-primary">Eliminar</a>
-                        </td>
+                        @if (auth()->user()->role == 'admin')
+                            <td>
+                                <a href="{{ route('lista.eliminar', $podcast->id) }}" class="btn btn-primary">Eliminar</a>
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
