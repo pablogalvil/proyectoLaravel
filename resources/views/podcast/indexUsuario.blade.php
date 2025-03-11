@@ -14,7 +14,7 @@
             @foreach ($podcasts as $podcast)
                 <div class="col">
                     <div class="card h-100 text-center">
-                        <img src="{{ $podcast->imagen }}" class="card-img-top" alt="Imagen del podcast">
+                        <img src="/storage/{{ $podcast->imagen }}" class="card-img-top" alt="Imagen del podcast">
                         <div class="card-body">
                             <h5 class="card-title">
 
