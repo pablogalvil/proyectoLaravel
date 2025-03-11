@@ -145,7 +145,6 @@ class PodcastController extends Controller
         $request->validate([
             'duracion' => 'required|integer|max:255|min:8',
             'nombre' => 'required|string|max:255',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'descripcion' => 'required|string|max:255|min:8',
             'fechaPublicacion' => 'required|date'
         ]);
@@ -161,7 +160,7 @@ class PodcastController extends Controller
             }
 
             //Definimos la ruta especifica para este Podcast
-            $carpetaPodcast = '/storage/public/app/imgenes/podcast/' . $Podcast->id;
+            $carpetaPodcast = 'imagenes/podcast/' . $Podcast->id;
 
             //Guardamos la imagen en el hd y obtenemos la ruta completa
             $imagenPath = $request->file('imagen')->store($carpetaPodcast, 'public');
@@ -175,7 +174,7 @@ class PodcastController extends Controller
 
 
 
-        return redirect()->route('podcast.indice')->with('success', 'Podcast actualizado correctamente.');
+        return redirect()->route('podcast.listarPodcastAdmin')->with('success', 'Podcast actualizado correctamente.');
     }
     //funcion para crear nuevo podcast
     public function crear()

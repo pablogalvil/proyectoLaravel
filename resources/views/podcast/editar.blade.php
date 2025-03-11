@@ -43,7 +43,7 @@
             <!--boton para actualizar-->
             <button type="submit" class="btn btn-primary">Actualizar</button>
             <!--volvemos al indice-->
-            <a href="{{ route('podcast.indice') }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('podcast.listarPodcastAdmin') }}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 @endsection
