@@ -72,8 +72,9 @@
             <?php if (count($podcast->comentarios) > 0): ?>
                     <?php foreach ($podcast->comentarios as $comentario): ?>
                         <div class="comment">
-                            @if($comentario->user->image)
-                                @if(filter_var($comentario->user->image, FILTER_VALIDATE_URL))
+                            <?php var_dump($comentario->usuario)?>
+                            @if($comentario->usuario->image)
+                                @if(filter_var($comentario->usuario->image, FILTER_VALIDATE_URL))
                                     <!-- Si la imagen es una URL válida, mostrarla -->
                                     <img src="{{ $comentario->usuario->image }}" alt="Foto de perfil" class="rounded-circle" style="width: 100px; height: 100px;">
                                 @else

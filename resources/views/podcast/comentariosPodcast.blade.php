@@ -15,10 +15,18 @@
                         <div class="row mb-3 d-flex align-items-center justify-content-center">
                             <!-- Imagen y nombre del usuario -->
                             <div class="col-12 col-md-3 text-md-left align-items-center">
-                                <img src="{{ $comentario->usuario ? $comentario->usuario->image : '/images/default-avatar.png' }}" 
-                                     alt="Usuario" 
-                                     class="rounded-circle" 
-                                     style="width: 50px; height: 50px; object-fit: cover; margin-bottom: 10px;">
+                                @if($comentario->usuario->image)
+                                    @if(filter_var($comentario->usuario->image, FILTER_VALIDATE_URL))
+                                        <!-- Si la imagen es una URL válida, mostrarla -->
+                                        <img src="{{ $comentario->usuario->image }}" alt="Foto de perfil" class="rounded-circle" style="width: 100px; height: 100px;">
+                                    @else
+                                        <!-- Si la imagen no es una URL, usar la imagen local -->
+                                        <img src="{{ asset('storage/'.$comentario->usuario->image) }}" alt="Foto de perfil" class="rounded-circle" style="width: 100px; height: 100px;">
+                                    @endif
+                                @else
+                                    <!-- Imagen por defecto si no hay imagen -->
+                                    <img src="{{ asset('images/default-avatar.png') }}" alt="Foto de perfil predeterminada" class="rounded-circle" style="width: 100px; height: 100px;">
+                                @endif
                                 <div>
                                     <p class="comment-user">{{ $comentario->usuario ? $comentario->usuario->name : 'Usuario desconocido' }}</p>
                                     <p class="comment-date">{{ $comentario->fecha }}</p>
