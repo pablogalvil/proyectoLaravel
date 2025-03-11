@@ -58,7 +58,7 @@
 
     <script>
         // Ruta imagen
-        let rutaImg = "/storage/imagenes/podcast/";
+        let rutaImg = "/storage/";
 
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".ver-detalles").forEach(button => {
