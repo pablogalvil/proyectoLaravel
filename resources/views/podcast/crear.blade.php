@@ -40,7 +40,7 @@
             </div>
             <!--volvemos al indice-->
             <button type="submit" class="btn btn-primary">Crear</button>
-            <a href="{{ route('podcast.indice') }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('podcast.listarPodcastAdmin') }}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 @endsection
