@@ -2,17 +2,111 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lista;
 use Illuminate\Http\Request;
 use App\Models\Podcast;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Comentario;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Episodio;
+use App\Models\User;
+
 class PodcastController extends Controller
 {
-    //mostrar la lista de Podcast
-    public function indice()
+
+    // Función para mostrar la lista de Podcast
+    public function listarPodcast()
     {
-        $podcast = Podcast::all();
-        return view('podcast.indice', compact('podcast'));
+        // Obtener los podcasts paginados automáticamente (12 por página)
+        $podcasts = Podcast::orderBy('created_at', 'asc')->paginate(12);
+
+        // Devolver la vista con la paginación
+        return view('podcast.indexUsuario', compact('podcasts'));
     }
+
+    // Función para mostrar la lista de Podcast del Admin
+    public function listarPodcastAdmin()
+    {
+        // Obtener los podcasts paginados automáticamente (12 por página)
+        $podcasts = Podcast::orderBy('created_at', 'asc')->paginate(12);
+
+        // Devolver la vista con la paginación
+        return view('podcast.indexAdmin', compact('podcasts'));
+    }
+
+    // Función para ver los comentarios de un podcast por el id del podcast
+    public function verComentarios($id)
+    {
+        // Obtenemos el podcast
+        $podcast = Podcast::with(['comentarios.usuario'])->findOrFail($id);
+        // Mostramos la vista con los comentarios
+        return view('podcast.comentariosPodcast', compact('podcast'));
+    }
+
+
+    // Función para guardar un comentario
+    public function guardarComentario(Request $request, $id)
+    {
+        $request->validate([
+            'descripcion' => 'required|string|max:500',
+        ]);
+
+        Comentario::create([
+            'descripcion' => $request->descripcion,
+            'user_id' => Auth::id(),  // Aquí se asegura de que el usuario autenticado se guarde
+            'podcast_id' => $id,
+            'fecha' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Comentario publicado con éxito.');
+    }
+
+
+    public function audioPodcast($id)
+    {
+        // Buscar el podcast por el ID
+        $podcast = Podcast::find($id);
+
+        if (!$podcast) {
+            return response()->json(['error' => 'Podcast no encontrado.'], 404);
+        }
+
+        // Buscar el primer episodio del podcast
+        $episodio = $podcast->episodios()->first(); // Obtén el primer episodio relacionado con el podcast
+
+        if (!$episodio) {
+            return response()->json(['error' => 'Episodio no encontrado.'], 404);
+        }
+
+        // Retornar la URL del audio como respuesta JSON
+        return response()->json([
+            'audio_url' => asset('audio/' . $episodio->audio),
+        ]);
+    }
+
+
+    public function verReproductor($id)
+    {
+        // Buscar el podcast por ID
+        $podcast = Podcast::find($id);
+
+        if (!$podcast) {
+            return redirect()->route('podcast.listarPodcastAdmin')->with('error', 'Podcast no encontrado.');
+        }
+
+        // Buscar el primer episodio relacionado con este podcast
+        $episodio = $podcast->episodios()->first(); // Obtener el primer episodio
+
+        if (!$episodio) {
+            return redirect()->route('podcast.listarPodcastAdmin')->with('error', 'Episodio no encontrado.');
+        }
+
+        // Pasar el episodio a la vista 'reproductor'
+        return view('podcast.reproductor', compact('episodio'));
+    }
+
+
+
 
     // funcion para los detalles del podcast
     public function mostrar($id)
@@ -30,7 +124,7 @@ class PodcastController extends Controller
         //Con el Podcast recuperado lo borramos utilizando delete
         $Podcast->delete();
         //Redireccionamos a la lista de podcast
-        return redirect()->route('podcast.indice')->with('success', 'Podcast eliminado correctamente.');
+        return redirect()->route('podcast.listarPodcastAdmin')->with('success', 'Podcast eliminado correctamente.');
     }
     //funcion para editar
     public function editar($id)
@@ -46,7 +140,7 @@ class PodcastController extends Controller
         $request->validate([
             'duracion' => 'required|integer|max:255|min:8',
             'nombre' => 'required|string|max:255',
-            'imagen' => 'nullable|string|max:255',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'descripcion' => 'required|string|max:255|min:8',
             'fechaPublicacion' => 'required|date'
         ]);
@@ -65,7 +159,7 @@ class PodcastController extends Controller
             $carpetaPodcast = '/storage/public/app/imgenes/podcast/' . $Podcast->id;
 
             //Guardamos la imagen en el hd y obtenemos la ruta completa
-            $imagenPath = $request->file('imagen')->update($carpetaPodcast, 'public');
+            $imagenPath = $request->file('imagen')->store($carpetaPodcast, 'public');
 
             //Hay que añadir la ruta de la imagen a los datos que se van a 
             //insertar en bd
@@ -91,7 +185,6 @@ class PodcastController extends Controller
         $request->validate([
             'duracion' => 'required|integer|max:255|min:8',
             'nombre' => 'required|string|max:255',
-            'imagen' => 'nullable|string|max:255',
             'descripcion' => 'required|string|max:255|min:8',
             'fechaPublicacion' => 'required|date'
         ]);
@@ -106,14 +199,13 @@ class PodcastController extends Controller
             $carpetaPodcast = 'imagenes/podcast/' . $Podcast->id;
 
             //Guardamos el archivo en el disco duro y obtenemos la ruta completa
-            $imagePath = $request->file('imagen')->update($carpetaPodcast, 'public');
+            $imagePath = $request->file('imagen')->store($carpetaPodcast, 'public');
 
             //Actualizamos el Podcast con la nueva imagen
             $Podcast->update(['imagen' => $imagePath]); //imagen = $imagePath;
 
         }
         //reedirigmos al indice
-        return redirect()->route('podcast.indice')->with('success', 'Podcast actualizado correctamente.');
+        return redirect()->route('podcast.listarPodcastAdmin')->with('success', 'Podcast actualizado correctamente.');
     }
-
 }

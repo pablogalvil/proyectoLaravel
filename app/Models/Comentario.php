@@ -14,15 +14,21 @@ class Comentario extends Model
     protected $fillable = [
         'descripcion', 
         'fecha', 
-        'usuario_id', 
+        'user_id', 
         'podcast_id'
     ];
 
     // Obtenemos el registro del usuario que pertenece al comentario
-    public function usuario()
+    /*public function usuario()
     {
-        return $this->belongsTo(Usuario::class);
-    }
+        return $this->belongsTo(User::class);
+    }*/
+    // Comentario.php
+public function usuario()
+{
+    return $this->belongsTo(User::class, 'user_id'); 
+}
+
 
     // Obtenemos el registro del podcast que pertenece al comentario
     public function podcast()

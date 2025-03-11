@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('descripcion');
             $table->date('fecha');
-            $table->foreignId('usuario_id')->constrained('usuario')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('podcast_id')->constrained('podcast')->onDelete('cascade');
             $table->timestamps();
         });
