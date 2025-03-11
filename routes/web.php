@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     //Listado
     Route::get('/lista', [App\Http\Controllers\ListaController::class, 'indice'])->name('lista.indice');
 
-    Route::get('/lista', [App\Http\Controllers\ListaController::class, 'indiceUsuario'])->name('lista.indiceUsuario');
+    Route::get('/listaUsuario', [App\Http\Controllers\ListaController::class, 'indiceUsuario'])->name('lista.indiceUsuario');
     //Crear
     Route::get('/lista/crear', [App\Http\Controllers\ListaController::class, 'crear'])->name('lista.crear');
     Route::post('/lista/insertar', [App\Http\Controllers\ListaController::class, 'insertar'])->name('lista.insertar');

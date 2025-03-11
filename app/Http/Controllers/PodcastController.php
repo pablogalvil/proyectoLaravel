@@ -112,7 +112,8 @@ class PodcastController extends Controller
     public function mostrar($id)
     {
         $podcast = Podcast::with(['locutores.equipos', 'generos', 'invitados'])->findOrFail($id);
-        return response()->json($podcast);
+        $data = response()->json($podcast);
+        return $data;
     }
 
 

@@ -6,7 +6,7 @@
     <p>Escucha nuestros podcasts y deja tu comentario</p>
 
     <div class="lista mt-4 fs-5">
-        <a href="{{ route('lista.mostrarTodas') }}">Explora nuestras listas</a>
+        <a href="{{ route('lista.indiceUsuario') }}">Explora nuestras listas</a>
     </div>
 
     <!-- Contenedor de Podcasts -->

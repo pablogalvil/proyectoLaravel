@@ -70,6 +70,18 @@
             padding-top: 30px;
             font-size: 30px;
         }
+
+        h1.titulo {
+            padding-top: 30px;
+            font-size: 2em;
+        }
+
+        table.mostrar th, table.mostrar td{
+            color : white;
+            background-color: #43444c;
+        }
+
+        
     </style>
 </head>
 

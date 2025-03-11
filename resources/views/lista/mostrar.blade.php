@@ -1,9 +1,9 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('content')
     <div class="container">
-        <h1>Podcasts de la lista "{{ $listas->nombre }}"</h1>
-        <table class="table">
+        <h1 class="titulo">Podcasts de la lista "{{ $listas->nombre }}"</h1>
+        <table class="table mostrar">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -29,5 +29,10 @@
                 @endforeach
             </tbody>
         </table>
+        @if (auth()->user()->role == 'admin')
+            <a href="{{ route('lista.indice') }}" class="btn btn-secondary">Volver a las listas</a>
+        @else
+            <a href="{{ route('lista.indiceUsuario') }}" class="btn btn-secondary">Volver a las listas</a>
+        @endif
     </div>
 @endsection
