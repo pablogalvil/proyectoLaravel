@@ -107,16 +107,15 @@
     </div>
 </div>
 
-<script src="{{ asset('js/podcast.js') }}"></script>
-
 <script>
-    //ruta imagen
+    // Ruta imagen
     let rutaImg = "/storage/";
+
+
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(".ver-detalles").forEach(button => {
             button.addEventListener("click", function(event) {
                 event.preventDefault(); // Evita que el enlace navegue a otra página
-
                 let podcastId = this.getAttribute("data-id");
                 console.log("ID del podcast:", podcastId);
 
@@ -126,20 +125,42 @@
                         console.log("Datos recibidos:", data); // Verificar si los datos llegan aquí
 
                         let detallesHtml = `
-                        <p><img src="${rutaImg}${data.imagen}" width="100" height="100" alt="Imagen del Podcast"></p>
-                        <p class="text-dark"><strong>Título:</strong> ${data.nombre}</p>
-                        <p class="text-dark" ><strong>Duración:</strong> ${data.duracion}</p>
-                        <p class="text-dark" ><strong>Descripción:</strong> ${data.descripcion}</p>
-                        <p class="text-dark"><strong>Fecha de publicación:</strong> ${data.fechaPublicacion}</p>
-                        <button type="button" class="btn btn-secondary mt-2" data-bs-dismiss="modal">Cerrar</button>`;
+                                <p><img src="${rutaImg}${data.imagen}" width="100" height="100" alt="Imagen del Podcast"></p>
+                                <p class="text-dark"><strong>Título:</strong> ${data.nombre}</p>
+                                <p class="text-dark"><strong>Duración:</strong> ${data.duracion}</p>
+                                <p class="text-dark"><strong>Descripción:</strong> ${data.descripcion}</p>
+                                <p class="text-dark"><strong>Fecha de publicación:</strong> ${data.fechaPublicacion}</p>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button id="verMas" class="btn btn-info">Ver más</button>
+                                <div id="infoExtra" style="display:none; margin-top:10px; color: black;">
+                                    <h5>Información relacionada</h5>
+                                    <p><strong>Locutores:</strong> ${data.locutores.map(l => l.nombre).join(", ") || "No disponible"}</p>
+                                    <p><strong>Géneros:</strong> ${data.generos.map(g => g.nombre).join(", ") || "No disponible"}</p>
+                                    <p><strong>Invitados:</strong> ${data.invitados.map(i => i.nombre).join(", ") || "No disponible"}</p>
+                                    <p><strong>Equipos por locutor:</strong></p>
+                                    <ul>
+                                        ${data.locutores.map(locutor =>
+                                `<li>${locutor.nombre}: ${locutor.equipos.map(equipo => equipo.nombre).join(", ") || "Sin equipo"}</li>`
+                            ).join("")}
+                                    </ul>
+                                </div>
+                            `;
 
                         document.getElementById("detallesPodcast").innerHTML = detallesHtml;
 
-                        let modalElement = document.getElementById("modalDetalles");
-                        let modal = new bootstrap.Modal(modalElement);
+                        // Mostrar el modal
+                        let modal = new bootstrap.Modal(document.getElementById("modalDetalles"));
                         modal.show();
+
+                        // Evento asincrónico para el botón "Ver más"
+                        setTimeout(() => {
+                            document.getElementById("verMas").addEventListener("click", function() {
+                                let infoExtra = document.getElementById("infoExtra");
+                                infoExtra.style.display = infoExtra.style.display === "none" ? "block" : "none";
+                            });
+                        }, 500);
                     })
-                    .catch(error => console.error("Error al cargar los detalles:", error));
+                    .catch(error => console.error('Error al obtener los detalles:', error));
             });
         });
     });
