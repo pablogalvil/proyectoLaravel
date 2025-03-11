@@ -62,6 +62,10 @@
     </div>
 
     <div class="container text-center mt-5 pb-4">
-        <a href="{{ url('/listarPodcast') }}" class="btn btn-light">Volver</a>
+        @if (auth()->user()->role == 'admin')
+            <a href="{{ route('podcast.listarPodcastAdmin') }}" class="btn btn-light">Volver</a>
+        @else
+            <a href="{{ route('podcast.listar') }}" class="btn btn-light">Volver</a>
+        @endif
     </div>
 @endsection

@@ -98,7 +98,11 @@ class PodcastController extends Controller
         $episodio = $podcast->episodios()->first(); // Obtener el primer episodio
 
         if (!$episodio) {
-            return redirect()->route('podcast.listarPodcastAdmin')->with('error', 'Episodio no encontrado.');
+            if (Auth::user()->role == 'admin') {
+                return redirect()->route('podcast.listarPodcastAdmin')->with('error', 'Podcast sin episodios.');
+            } else {
+                return redirect()->route('podcast.listar')->with('error', 'Podcast sin episodios.');
+            }
         }
 
         // Pasar el episodio a la vista 'reproductor'

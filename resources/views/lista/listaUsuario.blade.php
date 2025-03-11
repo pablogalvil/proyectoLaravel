@@ -5,7 +5,7 @@
     <h2>Listas</h2>
     <div class="lista mt-4 fs-5">
         <!-- Enlace para explorar las listas -->
-        <a href="{{ route('podcast.listarPodcastAdmin') }}">Explora nuestros podcasts</a>
+        <a href="{{ route('podcast.listar') }}">Explora nuestros podcasts</a>
     </div>
     <div class="row row-cols-1 row-cols-md-4 g-4 mt-4">
         @foreach ($listas as $lista)
