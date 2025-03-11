@@ -24,9 +24,9 @@
                     <a href="/podcast/{{ $podcast->id }}/comentarios" class="btn btn-warning">
                         Comentarios
                     </a>
-                    <a href="" class="btn btn-warning">
-                        Reproducir
-                    </a>
+                    <button class="btn btn-warning">
+                            <a href="{{ route('podcast.reproducir', $podcast->id) }}" style="color: black; text-decoration: none;">Reproducir</a>
+                        </button>
                 </div>
             </div>
         </div>
@@ -54,6 +54,8 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('js/podcast.js') }}"></script>
 
 <script>
     //ruta imagen
