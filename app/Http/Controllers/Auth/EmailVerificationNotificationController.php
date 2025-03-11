@@ -13,8 +13,14 @@ class EmailVerificationNotificationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $rol = $request->user()->role;
+
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('podcast.indice', absolute: false));
+            if ($rol == 'admin') {
+                return redirect()->intended(route('podcast.listarPodcastAdmin', absolute: false).'?verified=1');
+            } else {
+                return redirect()->intended(route('podcast.listar', absolute: false).'?verified=1');
+            }
         }
 
         $request->user()->sendEmailVerificationNotification();

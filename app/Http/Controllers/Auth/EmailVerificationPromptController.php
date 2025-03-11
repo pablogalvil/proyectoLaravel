@@ -14,8 +14,16 @@ class EmailVerificationPromptController extends Controller
      */
     public function __invoke(Request $request): RedirectResponse|View
     {
+        $rol = $request->user()->role;
+
+        if ($rol == 'admin') {
+            $ruta = 'podcast.listarPodcastAdmin';
+        } else {
+            $ruta = 'podcast.listar';
+        }
+        
         return $request->user()->hasVerifiedEmail()
-                    ? redirect()->intended(route('podcast.indice', absolute: false))
+                    ? redirect()->intended(route($ruta, absolute: false))
                     : view('auth.verify-email');
     }
 }
