@@ -11,13 +11,20 @@
         <div class="row">
             <!-- Columna izquierda que ocupará más espacio -->
             <div class="col-md-8 mb-4"  style="padding-left: 70px;">
-                <p><strong>Foto de perfil:</strong> 
-                    @if($user->image)
-                        <img src="{{ asset('storage/'.$user->image) }}" alt="Foto de perfil" class="rounded-circle" style="width: 100px; height: 100px;">
+            <p><strong>Foto de perfil:</strong> 
+                @if($user->image)
+                    @if(filter_var($user->image, FILTER_VALIDATE_URL))
+                        <!-- Si la imagen es una URL válida, mostrarla -->
+                        <img src="{{ $user->image }}" alt="Foto de perfil" class="rounded-circle" style="width: 100px; height: 100px;">
                     @else
-                        <img src="{{ asset('images/default-avatar.png') }}" alt="Foto de perfil predeterminada" class="rounded-circle" style="width: 100px; height: 100px;">
+                        <!-- Si la imagen no es una URL, usar la imagen local -->
+                        <img src="{{ asset('storage/'.$user->image) }}" alt="Foto de perfil" class="rounded-circle" style="width: 100px; height: 100px;">
                     @endif
-                </p>
+                @else
+                    <!-- Imagen por defecto si no hay imagen -->
+                    <img src="{{ asset('images/default-avatar.png') }}" alt="Foto de perfil predeterminada" class="rounded-circle" style="width: 100px; height: 100px;">
+                @endif
+            </p>
                 <p><strong>Nombre:</strong> {{ $user->name }}</p>
                 <p><strong>Email:</strong> {{ $user->email }}</p>
                 <p><strong>Rol:</strong> {{ $user->role }}</p>

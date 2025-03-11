@@ -6,17 +6,11 @@ use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\ListaController;
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    
-    Route::get('/podcast', [PodcastController::class, 'indice'])->name('podcast.indice');
     //Ruta para el borrado del cliente actual
     Route::delete('/podcast/{id}', [PodcastController::class, 'eliminar'])->name('podcast.eliminar');
     //Ruta para cargar la vista de edicion del cliente seleccionado

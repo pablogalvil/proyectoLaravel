@@ -14,7 +14,7 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        $rol = $request->user()->roles->first()->name;
+        $rol = $request->user()->role;
 
         if ($request->user()->hasVerifiedEmail()) {
             if ($rol == 'admin') {

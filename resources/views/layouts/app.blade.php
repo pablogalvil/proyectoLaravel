@@ -82,9 +82,15 @@
         <header class="bg-dark py-3">
             <div class="container d-flex justify-content-between align-items-center">
                 <!-- Título clickeable que redirige a listarPodcast -->
+                @if (auth()->user()->role == 'admin')
+                <a href="{{ route('podcast.listarPodcastAdmin') }}" class="text-white text-decoration-none">
+                    <h1 class="text-white display-5 mx-auto">TríoCast</h1>
+                </a>
+                @else
                 <a href="{{ route('podcast.listar') }}" class="text-white text-decoration-none">
                     <h1 class="text-white display-5 mx-auto">TríoCast</h1>
                 </a>
+                @endif
 
                 <!-- Verifica si el usuario está autenticado -->
         @if (Auth::check()) <!-- Verifica si el usuario está autenticado -->
