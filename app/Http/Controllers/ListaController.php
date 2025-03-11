@@ -15,7 +15,7 @@ class ListaController extends Controller
 
     function indiceUsuario(){
         $listas = Lista::all();
-        return view('lista.indiceUsuario', compact('listas'));
+        return view('lista.listaUsuario', compact('listas'));
     }
 
     function mostrar($id){
