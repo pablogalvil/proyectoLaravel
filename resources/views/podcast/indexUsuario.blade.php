@@ -81,7 +81,7 @@
                                 <p class="text-dark"><strong>Fecha de publicación:</strong> ${data.fechaPublicacion}</p>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button id="verMas" class="btn btn-info">Ver más</button>
-                                <div id="infoExtra" style="display:none; margin-top:10px;">
+                                <div id="infoExtra" style="display:none; margin-top:10px; color: black;">
                                     <h5>Información relacionada</h5>
                                     <p><strong>Locutores:</strong> ${data.locutores.map(l => l.nombre).join(", ") || "No disponible"}</p>
                                     <p><strong>Géneros:</strong> ${data.generos.map(g => g.nombre).join(", ") || "No disponible"}</p>
