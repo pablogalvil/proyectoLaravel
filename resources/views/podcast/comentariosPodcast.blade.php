@@ -25,7 +25,7 @@
                                     @endif
                                 @else
                                     <!-- Imagen por defecto si no hay imagen -->
-                                    <img src="{{ asset('images/default-avatar.png') }}" alt="Foto de perfil predeterminada" class="rounded-circle" style="width: 100px; height: 100px;">
+                                    <img src="{{ asset('image/default-avatar.jpg') }}" alt="Foto de perfil predeterminada" class="rounded-circle" style="width: 100px; height: 100px;">
                                 @endif
                                 <div>
                                     <p class="comment-user">{{ $comentario->usuario ? $comentario->usuario->name : 'Usuario desconocido' }}</p>
@@ -47,7 +47,8 @@
 
     <!-- Formulario para añadir comentarios -->
     <div class="container mt-4">
-        @if (Auth::check()) <!-- Solo mostrar el formulario si el usuario está autenticado -->
+        <!-- Solo muestra el formulario si el usuario está autenticado -->
+        @if (Auth::check()) 
             <h4>Deja tu comentario</h4>
             <form action="{{ route('comentario.guardarComentario', $podcast->id) }}" method="POST">
                 @csrf

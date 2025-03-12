@@ -17,27 +17,25 @@ class PodcastController extends Controller
     // Función para mostrar la lista de Podcast
     public function listarPodcast()
     {
-        // Obtener los podcasts paginados automáticamente (12 por página)
+        // Obtenemo todos los registros de los podcasts de la bd y paginados automáticamente 
         $podcasts = Podcast::orderBy('created_at', 'asc')->paginate(12);
 
-        // Devolver la vista con la paginación
+        // Devolvemos la vista con la paginación y envía la variable $podcasts a la vista
         return view('podcast.indexUsuario', compact('podcasts'));
     }
 
     // Función para mostrar la lista de Podcast del Admin
     public function listarPodcastAdmin()
     {
-        // Obtener los podcasts paginados automáticamente (12 por página)
         $podcasts = Podcast::orderBy('created_at', 'asc')->paginate(12);
 
-        // Devolver la vista con la paginación
         return view('podcast.indexAdmin', compact('podcasts'));
     }
 
     // Función para ver los comentarios de un podcast por el id del podcast
     public function verComentarios($id)
     {
-        // Obtenemos el podcast
+        // Obtenemos el podcast con sus comentarios y el usuario que va a cada comentario
         $podcast = Podcast::with(['comentarios.usuario'])->findOrFail($id);
         // Mostramos la vista con los comentarios
         return view('podcast.comentariosPodcast', compact('podcast'));
@@ -53,11 +51,13 @@ class PodcastController extends Controller
 
         Comentario::create([
             'descripcion' => $request->descripcion,
-            'user_id' => Auth::id(),  // Aquí se asegura de que el usuario autenticado se guarde
+            // Aquí se asegura de que el usuario autenticado se guarde
+            'user_id' => Auth::id(),  
             'podcast_id' => $id,
             'fecha' => now(),
         ]);
 
+        // Redirigimos al usuario a la página del formulario de comentarios y muestra un mensaje utilizando session flash
         return redirect()->back()->with('success', 'Comentario publicado con éxito.');
     }
 
@@ -72,7 +72,7 @@ class PodcastController extends Controller
         }
 
         // Buscar el primer episodio del podcast
-        $episodio = $podcast->episodios()->first(); // Obtén el primer episodio relacionado con el podcast
+        $episodio = $podcast->episodios()->first(); 
 
         if (!$episodio) {
             return response()->json(['error' => 'Episodio no encontrado.'], 404);

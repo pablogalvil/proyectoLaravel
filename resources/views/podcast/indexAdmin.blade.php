@@ -60,13 +60,14 @@
 
 <!-- Paginación -->
 <div class="mt-5 text-center pb-4">
-    <!-- Flecha página anterior -->
+    <!-- Flecha página anterior, comprueba si estamos en la primera página -->
     @if ($podcasts->onFirstPage())
         <!-- Flecha deshabilitada si estamos en la primera página -->
         <span class="text-muted">
             <i class="fas fa-arrow-left"></i> 
         </span> 
     @else
+        <!-- Obtiene la URL de la página anterior y la coloca en un enlace -->
         <a href="{{ $podcasts->previousPageUrl() }}" class="btn btn-link" style="color: white;">
             <i class="fas fa-arrow-left" style="color: white;"></i> 
         </a>
@@ -74,10 +75,11 @@
 
     <!-- Ver más en el medio -->
     <span class="mx-3" style="color: white;">
+        <!-- Muestra el número de página actual y la última página -->
         Página {{ $podcasts->currentPage() }} de {{ $podcasts->lastPage() }}
     </span>
 
-    <!-- Flecha página siguiente -->
+    <!-- Flecha página siguiente , comprueba si hay más páginas -->
     @if ($podcasts->hasMorePages())
         <a href="{{ $podcasts->nextPageUrl() }}" class="btn btn-link" style="color: white;">
             <i class="fas fa-arrow-right"></i> 
@@ -131,7 +133,7 @@
                                 <p class="text-dark"><strong>Descripción:</strong> ${data.descripcion}</p>
                                 <p class="text-dark"><strong>Fecha de publicación:</strong> ${data.fechaPublicacion}</p>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button id="verMas" class="btn btn-info">Ver más</button>
+                                <button id="verMas" class="btn btn-warning">Ver más</button>
                                 <div id="infoExtra" style="display:none; margin-top:10px; color: black;">
                                     <h5>Información relacionada</h5>
                                     <p><strong>Locutores:</strong> ${data.locutores.map(l => l.nombre).join(", ") || "No disponible"}</p>

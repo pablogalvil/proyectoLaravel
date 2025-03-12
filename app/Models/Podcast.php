@@ -26,10 +26,6 @@ class Podcast extends Model
     }
 
     // Obtenemos el registro del comentario que pertenece al podcast
-    /*public function comentarios()
-    {
-        return $this->hasMany(Comentario::class);
-    }*/
     public function comentarios()
 {
     return $this->hasMany(Comentario::class, 'podcast_id'); 

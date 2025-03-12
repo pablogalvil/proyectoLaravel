@@ -4,20 +4,25 @@ import { Howl, Howler } from 'howler';
 // Escuchar el evento click en los botones de reproducción
 document.querySelectorAll('.play-podcast').forEach(function(button) {
     button.addEventListener('click', function() {
+        // Obtiene el ID del podcast asociado al botón. Este ID está almacenado en el atributo data-podcast-id del botón
         const podcastId = this.getAttribute('data-podcast-id');
-        console.log('ID del podcast:', podcastId); // Asegurarte de que el ID del podcast es correcto
+        // Muestra la URL del audio en la consola para asegurarse de que se obtuvo correctamente.
+        console.log('ID del podcast:', podcastId);
 
-        // Obtener la URL del audio del episodio desde la ruta
+        // Obtiene la URL del audio del episodio desde la ruta
         fetch(`/episodios/${podcastId}`)
             .then(response => response.json())
             .then(data => {
-                console.log('URL del audio:', data.audio_url); // Verificar si la URL del audio es correcta
+                // Verifica si la URL del audio es correcta
+                console.log('URL del audio:', data.audio_url); 
 
                 if (data.audio_url) {
-                    // Reproducir el podcast usando Howler.js
+                    // Reproduce el podcast usando Howler.js
                     const podcastPlayer = new Howl({
                         src: [data.audio_url],
-                        html5: true,  // Para cargar el audio de manera más eficiente en dispositivos móviles
+                        // Para cargar el audio de manera más eficiente en dispositivos móviles
+                        html5: true,  
+                        // Funciones de callback 
                         onplay: function() {
                             console.log('Reproducción iniciada');
                         },
